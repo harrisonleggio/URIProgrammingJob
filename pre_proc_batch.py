@@ -38,5 +38,5 @@ def pre_proc(directory):
 
     os.remove(directory + '/raw/temp.in')
 
-    #P = Popen('source /shareddata/bashrc\n/usr/local/GMT5SAR/bin/pre_proc_batch.csh ALOS data.in batch.config', shell=True)
-    #P.communicate()
+    P = Popen('source /shareddata/bashrc\n/usr/local/GMT5SAR/bin/pre_proc_batch.csh ALOS data.in batch.config', shell=True)
+    P.communicate()

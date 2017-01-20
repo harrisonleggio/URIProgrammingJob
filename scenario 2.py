@@ -17,14 +17,14 @@ def main(argv):
     os.chdir(directory)
     pre_proc(directory)
 
-    #table_file = [x for x in os.listdir(directory + '/raw') if 'table.gmt' in x][0]
-    #generate_pairs(table_file, threshold)
+    table_file = [x for x in os.listdir(directory + '/raw') if 'table.gmt' in x][0]
+    generate_pairs(table_file, threshold)
     image_file = [x for x in os.listdir(directory + '/raw/') if 'IMG' in x][0]
 
     print image_file
     print directory
 
-    #make_dem(image_file, directory)
+    make_dem(image_file, directory)
 
 
 if __name__ == '__main__':
