@@ -26,3 +26,5 @@ for each_file in all_files:
     command = 'xyz2grd ' + name + '.hgt -G' + name + '.grd -I0.000833333333333 -R' + coords + ' -ZTLhw -V'
     P = Popen(command, shell=True, stdout=PIPE)
     P.communicate()
+    command1 = 'rm -f {}.hgt'.format(name)
+    P1 = Popen(command1, shell=True, stdout=PIPE)
