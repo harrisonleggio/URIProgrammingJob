@@ -22,5 +22,6 @@ for each_file in all_files:
     lat2 = lat + 1
     lon2 = lon + 1
 
-    coords = [lon, lon2, lat, lat2]
-    print coords
+    coords = '{}/{}/{}/{}'.format(lon, lon2, lat, lat2)
+    command = 'xyz2grd ' + name + '.hgt -G' + name + '.grd -I0.000833333333333 -R' + coords + ' -ZTLhw -V'
+    P = Popen(command, shell=True, stdout=PIPE)
