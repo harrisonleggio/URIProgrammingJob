@@ -31,9 +31,61 @@ os.mkdir(orig_path)
 
 long1, long2, lat1, lat2 = topo_range.split('/')
 
-os.chdir('/shareddata/GRD_SRTM4.1')
-
 file_finder(float(long1), float(long2), float(lat1), float(lat2), topo_path)
+
+os.chdir(orig_path)
+
+command1 = 'ln -s {}/{}.SAFE/measurement/*iw{}*vv* .'.format(data_folder, master_image, swath_number)
+command2 = 'ln -s {}/{}.SAFE/annotation/*iw{}*vv* .'.format(data_folder, master_image, swath_number)
+command3 = 'ln -s {}/{}.SAFE/measurement/*iw{}*vv* .'.format(data_folder, slave_image, swath_number)
+command4 = 'ln -s {}/{}.SAFE/annotation/*iw{}*vv* .'.format(data_folder, slave_image, swath_number)
+command5 = 'ln -s {}/dem.grd .'.format(topo_path)
+command6 = 'ln -s {}/{} .'.format(orbit_folder, master_orbit)
+command7 = 'ln -s {}/{} .'.format(orbit_folder, slave_orbit)
+command8 = '/opt/local/bin/gmt align_tops.csh {} {} {} {} {}/dem.grd'.format(master_image, master_orbit, slave_image, slave_orbit, topo_path)
+
+
+p1 = Popen(command1, shell=True)
+p1.wait()
+p2 = Popen(command2, shell=True)
+p2.wait()
+p3 = Popen(command3, shell=True)
+p3.wait()
+p4 = Popen(command4, shell=True)
+p4.wait()
+p5 = Popen(command5, shell=True)
+p5.wait()
+p6 = Popen(command6, shell=True)
+p6.wait()
+p7 = Popen(command7, shell=True)
+p7.wait()
+p8 = Popen(command8, shell=True)
+p8.wait()
+
+os.chdir(work_folder)
+
+swath_folder = 'F{}'.format(swath_number)
+swath_raw = swath_folder + '/raw'
+swath_topo = swath_folder + '/topo'
+
+os.mkdir(swath_folder)
+os.mkdir(swath_raw)
+os.mkdir(swath_topo)
+
+command9 = 'cp {}/config.s1a.txt {}/{}/.'.format(data_folder, work_folder, swath_folder)
+command10 = 'ln -s {}/orig/*{}* {}/{}/raw/.'.format(work_folder, swath_folder, work_folder, swath_folder)
+command11 = 'ln -s {}/topo/dem.grd {}/{}/topo/.'.format(work_folder, work_folder, swath_folder)
+
+p9 = Popen(command9, shell=True)
+p10 = Popen(command10, shell=True)
+p11 = Popen(command11, shell=True)
+
+os.chdir(work_folder + '/' + swath_folder)
+
+
+
+
+
 
 
 
