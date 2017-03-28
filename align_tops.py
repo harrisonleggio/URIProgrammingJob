@@ -5,6 +5,7 @@ from subprocess import Popen, PIPE
 import subprocess
 from make_dem import file_finder
 import re
+import time
 
 directory = "/Users/student/Desktop/Task-3-7-2017"
 os.chdir(directory)
@@ -32,7 +33,7 @@ os.mkdir(orig_path)
 
 long1, long2, lat1, lat2 = topo_range.split('/')
 
-#file_finder(float(long1), float(long2), float(lat1), float(lat2), topo_path)
+file_finder(float(long1), float(long2), float(lat1), float(lat2), topo_path)
 
 os.chdir(orig_path)
 
@@ -73,7 +74,7 @@ slave_pattern = re.findall(pat1, slave_folder)[0]
 slave_image = [x for x in os.listdir(orig_path) if slave_pattern in x][0]
 slave_image = slave_image.strip('.tiff')
 
-print master_image, slave_image
+time.sleep(5)
 
 command8 = '/usr/local/GMT5SAR/bin/align_tops.csh {} {} {} {} {}/dem.grd'.format(master_image, master_orbit, slave_image, slave_orbit, orig_path)
 p8 = Popen(command8, shell=True)
@@ -99,10 +100,23 @@ p11 = Popen(command11, shell=True)
 
 os.chdir(work_folder + '/' + swath_folder)
 
+time.sleep(5)
 
+new_files = [x for x in os.listdir(orig_path) if 'PRM' in x]
 
+f1 = new_files[0].split('.PRM')[0]
+f2 = new_files[1].split('.PRM')[0]
 
+f1_temp = f1[3:].split('_')[0]
+f2_temp = f2[3:].split('_')[0]
 
+file_order = ''
 
+if int(f1_temp) > int(f2_temp):
+    file_order = '{} {}'.format(f1, f2)
+else:
+    file_order = '{} {}'.format(f2, f1)
 
+command12 = '/usr/local/GMT5SAR/bin/p2p_S1A_TOPS.csh {} config.s1a.txt >& log &'.format(file_order)
 
+p12 = Popen(command12, shell=True)
